@@ -12,24 +12,50 @@ This repository contains a Deterministic Finite Automaton (DFA) implementation d
 * **$q_2$**: Inside the comment body (last read symbol was not `*`).
 * **$q_3$**: Inside the comment body, last read symbol was `*` (potential closing).
 * **$q_4$**: **Accepting state** (comment successfully closed with `*/`).
-* **$q_{\text{trap}}$**: Dead state (invalid sequence or extra characters after closing).
+* **$q_{\text{dead}}$**: Dead/Trap state (invalid sequence or extra characters after closing).
 
 ### Transition Table
 
 | State | Input `a` | Input `*` | Input `/` |
 | :--- | :--- | :--- | :--- |
-| $\rightarrow q_0$ | $q_{\text{trap}}$ | $q_{\text{trap}}$ | $q_1$ |
-| $q_1$ | $q_{\text{trap}}$ | $q_2$ | $q_{\text{trap}}$ |
+| $\rightarrow q_0$ | $q_{\text{dead}}$ | $q_{\text{dead}}$ | $q_1$ |
+| $q_1$ | $q_{\text{dead}}$ | $q_2$ | $q_{\text{dead}}$ |
 | $q_2$ | $q_2$ | $q_3$ | $q_2$ |
-| $q_3$ | $q_2$ | $q_3$ | **$q_4$** |
-| $*q_4$ | $q_{\text{trap}}$ | $q_{\text{trap}}$ | $q_{\text{trap}}$ |
-| $q_{\text{trap}}$ | $q_{\text{trap}}$ | $q_{\text{trap}}$ | $q_{\text{trap}}$ |
+| $q_3$ | $q_2$ | $q_3$ | $*q_4$ |
+| $*q_4$ | $q_{\text{dead}}$ | $q_{\text{dead}}$ | $q_{\text{dead}}$ |
+| $q_{\text{dead}}$ | $q_{\text{dead}}$ | $q_{\text{dead}}$ | $q_{\text{dead}}$ |
 
 ---
 
-## 🚀 How to Run the Code
+## 📝 Written Assignment
 
-1. Make sure you have a C++ compiler installed (like `g++`).
-2. Compile the source file:
-   ```bash
-   g++ main.cpp -o comment_checker
+Here is the handwritten formal definition, transition table, and transition graph:
+
+![Written Assignment](Written-Assignment.jpg)
+
+---
+
+## 💻 Program Output
+
+Running the C++ program validates the test cases exactly as required:
+
+```text
+========================================
+   C-STYLE COMMENT DFA VALIDATOR        
+========================================
+
+--- ACCEPTED STRINGS ---
+/*a*/           -> Accepted
+/**/            -> Accepted
+/***/           -> Accepted
+/*aaa*aaa*/     -> Accepted
+/*a/a*/         -> Accepted
+
+--- REJECTED STRINGS ---
+/**             -> Rejected
+/**/a/*aa*/     -> Rejected
+aaa/**/aa       -> Rejected
+/*/             -> Rejected
+/**a/           -> Rejected
+//aaaa          -> Rejected
+========================================

@@ -1,9 +1,4 @@
 
----
-
-### **2. `main.cpp`**
-
-```cpp
 #include <iostream>
 #include <string>
 #include <vector>
